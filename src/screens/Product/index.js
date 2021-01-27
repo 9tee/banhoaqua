@@ -45,7 +45,7 @@ function Product(props) {
 
     return (
         <>
-            <Breadcrumb />
+            <Breadcrumb navi='Product' name='Product'/>
             <section class="ftco-section">
                 <div class="container">
                     <div class="row">
@@ -101,7 +101,7 @@ function Product(props) {
                             <TextArea rows={4} placeholder='Add your comment here'/>
                         </Form.Item>
                         <Form.Item>
-                            <Button htmlType="submit" type="primary">
+                            <Button htmlType="submit" type="primary" style={{float:'right'}}>
                                 Add Comment
                              </Button>
                         </Form.Item>

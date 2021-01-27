@@ -1,14 +1,15 @@
-import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Header(props) {
     const [dropdown, setDropdown] = useState('');
+    const [isLogin, setIsLogin] = useState(false);
 
     let dropdownHandle = () => {
-        if(dropdown !== ''){
+        if (dropdown !== '') {
             setDropdown('')
         }
-        else{
+        else {
             setDropdown('show')
         }
     }
@@ -45,21 +46,28 @@ function Header(props) {
                     <div class="collapse navbar-collapse" id="ftco-nav">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active"><Link to="/" class="nav-link">Home</Link></li>
-                            <li class= {`nav-item dropdown ${dropdown}`} onClick={dropdownHandle}>
+                            <li class={`nav-item dropdown ${dropdown}`} onClick={dropdownHandle}>
                                 <Link class="nav-link dropdown-toggle" to="#">Shop</Link>
                                 <div class={`dropdown-menu ${dropdown}`} >
-                                    <Link class="dropdown-item" to="shop.html">Shop</Link>
-                                    <Link class="dropdown-item" to="wishlist.html">Wishlist</Link>
-                                    <Link class="dropdown-item" to="product-single.html">Single Product</Link>
-                                    <Link class="dropdown-item" to="cart.html">Cart</Link>
-                                    <Link class="dropdown-item" to="checkout.html">Checkout</Link>
+                                    <Link class="dropdown-item" to="/shop">Shop</Link>
+                                    <Link class="dropdown-item" to="/wishlist">Wishlist</Link>
+                                    <Link class="dropdown-item" to="/product">Single Product</Link>
+                                    <Link class="dropdown-item" to="/cart">Cart</Link>
+                                    <Link class="dropdown-item" to="/checkout">Checkout</Link>
                                 </div>
                             </li>
-                            <li class="nav-item"><Link to="about.html" class="nav-link">About</Link></li>
-                            <li class="nav-item"><Link to="blog.html" class="nav-link">Blog</Link></li>
-                            <li class="nav-item"><Link to="contact.html" class="nav-link">Contact</Link></li>
-                            <li class="nav-item cta cta-colored"><Link to="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</Link></li>
-
+                            <li class="nav-item"><Link to="/about" class="nav-link">About</Link></li>
+                            <li class="nav-item"><Link to="/blog" class="nav-link">Blog</Link></li>
+                            <li class="nav-item"><Link to="/contact" class="nav-link">Contact</Link></li>
+                            {
+                                isLogin ?
+                                    <>
+                                        <li class="nav-item cta cta-colored"><Link to="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</Link></li>
+                                        <li class="nav-item"><Link to="/login" class="nav-link">Logout</Link></li>
+                                    </>
+                                    :
+                                    <li class="nav-item"><Link to="/login" class="nav-link">Login</Link></li>
+                            }
                         </ul>
                     </div>
                 </div>

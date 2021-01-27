@@ -1,13 +1,15 @@
+import {Link} from 'react-router-dom';
+
 function SaleProduct(props){
     return(
         <div class="col-md-6 col-lg-3">
                 <div class="product">
-                    <a href="#" class="img-prod"><img class="img-fluid" src={props.image} alt="Colorlib Template" />
+                    <Link to="/product" class="img-prod"><img class="img-fluid" src={props.image} alt="Colorlib Template" />
                         <span class="status">{props.salePercent}%</span>
                         <div class="overlay"></div>
-                    </a>
+                    </Link>
                     <div class="text py-3 pb-4 px-3 text-center">
-                        <h3><a href="#">{props.name}</a></h3>
+                        <h3><Link to="/product">{props.name}</Link></h3>
                         <div class="d-flex">
                             <div class="pricing">
                                 <p class="price"><span class="mr-2 price-dc">${props.price.toFixed(2)}</span><span class="price-sale">${props.salePrice.toFixed(2)}</span></p>

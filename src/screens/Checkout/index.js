@@ -3,7 +3,7 @@ import { Breadcrumb } from "../../components";
 function Checkout(props) {
     return (
         <>
-            <Breadcrumb />
+            <Breadcrumb navi='Checkout' name='Checkout'/>
             <section class="ftco-section">
                 <div class="container">
                     <div class="row justify-content-center">

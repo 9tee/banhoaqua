@@ -2,3 +2,11 @@
     background:#82ae46;
     color: #ffffff;
 }
+
+.cart-empty{
+    padding: 100px 0px;
+}
+
+.cart-empty>div{
+    margin-bottom: 20px;
+}

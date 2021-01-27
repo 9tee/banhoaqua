@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 function CaroselItem(props) {
     const {
         image,
@@ -13,7 +15,7 @@ function CaroselItem(props) {
                         <div class="col-md-12 text-center">
                             <h1 class="mb-2">{text}</h1>
                             <h2 class="subheading mb-4">{memo}</h2>
-                            <p><a href="#" class="btn btn-primary">View Details</a></p>
+                            <p><Link to="/shop" class="btn btn-primary">View Details</Link></p>
                         </div>
                     </div>
                 </div>
