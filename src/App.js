@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {Header, Footer} from './components';
-import {Home, Shop, Product, Cart, Checkout} from './screens';
+import {Home, Shop, Product, Cart, Checkout, Login} from './screens';
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
       <Route path="/product" component={Product}/>
       <Route path="/cart" component={Cart}/>
       <Route path="/checkout" component={Checkout}/>
+      <Route path="/login" component={Login}/>
       <Footer/>
     </Router>
   );
