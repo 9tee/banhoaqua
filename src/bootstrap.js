@@ -1,10 +1,6 @@
-import axios from 'axios';
-import {BASE_URL} from './constants';
-import qs from 'qs';
+import axios from 'axios'
 
 window.axios = axios.create({
-  baseURL: BASE_URL,
-  paramsSerializer(params) {
-    return qs.stringify(params);
-  },
-});
+    baseURL: 'http://localhost:8080/v1',
+    headers: {token: window.localStorage.getItem('token')}
+  });
