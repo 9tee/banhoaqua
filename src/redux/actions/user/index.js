@@ -4,9 +4,10 @@ export const LOGIN_FAILED = 'LOGIN_FAILED'
 
 
 export default {
-  onLogin: (data) => ({
+  onLogin: (data,callback) => ({
     type: LOGIN,
-    data
+    data,
+    callback,
   }),
   onLoginSucceed: (data) => ({
     type: LOGIN_SUCCEED,

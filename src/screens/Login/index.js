@@ -1,6 +1,9 @@
 import { Form, Input, Button } from 'antd';
-import Background from '../../static/background_login.jpg'
+import { connect } from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
+import Background from '../../static/background_login.jpg'
+import actions from '../../redux/actions/user'
 
 const layout = {
     wrapperCol: {
@@ -14,16 +17,32 @@ const tailLayout = {
     },
 };
 
+
 function Login(props) {
+    let history = useHistory();
+
+    const onFinish = (value) => {
+        props.onLogin(value,redirect)
+    }
+
+    const redirect = () => {
+        if(!history.state){
+            history.push("/");
+        }else{
+            history.goBack();
+        }
+    }
+
+
     return (
-        <div className="bg" style={{backgroundImage:`url(${Background})`}}>
+        <div className="bg" style={{ backgroundImage: `url(${Background})` }}>
             <div className="container">
                 <div className="login-container" >
                     <h1>Đăng Nhập</h1>
                     <Form
                         {...layout}
                         name="basic"
-                        //onFinish={this.onFinish}
+                        onFinish={onFinish}
                         style={{ margin: "auto" }}
                     >
                         <Form.Item
@@ -39,7 +58,7 @@ function Login(props) {
                         </Form.Item>
 
                         <Form.Item
-                            name="password"
+                            name="pass"
                             rules={[
                                 {
                                     required: true,
@@ -51,10 +70,10 @@ function Login(props) {
                         </Form.Item>
 
                         <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit"> Đăng nhập </Button>
+                            <Button type="primary" htmlType="submit"> Login </Button>
                         </Form.Item>
                         <div>
-                            <span>Không có tài khoản?</span> <a href="signup"><span>Tạo tài khoản</span></a>
+                            <span>Don't have an account?</span> <a href="signup"><span>Sign up</span></a>
                         </div>
                     </Form>
                 </div>
@@ -63,4 +82,18 @@ function Login(props) {
     );
 }
 
-export default Login;
+
+const mapStateToProps = (state) => {
+    return{
+        
+    }
+}   
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLogin: (data, callback) => {
+            dispatch(actions.onLogin(data,callback))
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

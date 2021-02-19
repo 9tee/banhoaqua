@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Header(props) {
     const [dropdown, setDropdown] = useState('');
@@ -13,6 +13,8 @@ function Header(props) {
             setDropdown('show')
         }
     }
+
+    let location = useLocation();
 
     return (
         <>
@@ -66,7 +68,7 @@ function Header(props) {
                                         <li class="nav-item"><Link to="/login" class="nav-link">Logout</Link></li>
                                     </>
                                     :
-                                    <li class="nav-item"><Link to="/login" class="nav-link">Login</Link></li>
+                                    <li class="nav-item"><Link to={{pathname: "/login", state: location.pathname }}  class="nav-link">Login</Link></li>
                             }
                         </ul>
                     </div>

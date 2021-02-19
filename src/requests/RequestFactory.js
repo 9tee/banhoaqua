@@ -1,7 +1,9 @@
-import CategoryRequest from './CategoryRequest'
+import CategoryRequest from './CategoryRequest';
+import LoginRequest from './LoginRequest';
 
 const requestMap = {
     CategoryRequest,
+    LoginRequest
 };
 
 const instances = {};

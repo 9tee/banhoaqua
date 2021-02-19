@@ -26,9 +26,9 @@ function Pagination(props) {
                         {(new Array(pageSize+1).fill({})).map((item, index) => (
                             index === pageIndex-1
                                 ?
-                                <li class="active"><span>{index+1}</span></li>
+                                <li class="active" key={index}><span>{index+1}</span></li>
                                 :
-                                <li><div onClick={()=>indexClick(index+1)}>{index+1}</div></li>
+                                <li key={index}><div onClick={()=>indexClick(index+1)}>{index+1}</div></li>
                         ))}
                         {pageIndex === pageSize+1 ? <></> : <li><div onClick={()=>arrowClick(true)}>&gt;</div></li> }
                     </ul>

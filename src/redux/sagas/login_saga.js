@@ -14,9 +14,10 @@ import rf from '../../requests/RequestFactory';
 function* login(action) {
     try {
         const {data} = yield call(
-            () => rf.getRequest('LoginRequest').login(),{}
+            (data) => rf.getRequest('LoginRequest').login(data),action.data
         );
         yield put(actions.onLoginSucceed(data));
+        yield call(action.callback)
     } catch (err) {
         console.log("=======",err)
         yield put(actions.onLoginFailed(err));

@@ -5,11 +5,17 @@ import {
 
 export default (
   state = {
-    token:[],
+    token:'',
   },
   action,
 ) => {
   switch (action.type) {
+    case '@@INIT': {
+        return {
+            ...state,
+            token: window.localStorage.getItem('token'),
+        }
+    }
     case LOGIN_SUCCEED:{
         return  {
             ...state,

@@ -27,7 +27,7 @@ function Categories(props) {
                 <ul class="product-category">
                     {
                         categories.map((item, index) => (
-                            <li><div
+                            <li key={index}><div
                                 onClick={() => {onClick(index)}}
                                 class={item.style}
                             >{item.item}</div></li>
