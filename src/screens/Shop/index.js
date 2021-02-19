@@ -15,7 +15,9 @@ function Shop(props) {
 			<Breadcrumb />
 			<section class="ftco-section">
 				<div class="container">
-					<Categories />
+					<Categories
+						categories={props.category}
+					/>
 					<Products />
 					<Pagination />
 				</div>

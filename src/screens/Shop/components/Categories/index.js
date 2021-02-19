@@ -1,12 +1,8 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 function Categories(props) {
     const [categories, setCategories] = useState([
-        { item: 'All', style: 'active' },
-        { item: 'Vegetables'},
-        { item: 'Fruits'},
-        { item: 'Juice'},
-        { item: 'Dried'}
+        { item: 'All', style: 'active' }
     ])
 
     const onClick = (index) => {
@@ -14,6 +10,16 @@ function Categories(props) {
         temp[index].style = 'active'
         setCategories(temp)
     }
+
+    useEffect(
+        ()=>{
+            let arr = props.categories.map((item)=>(
+                { item: item.name}
+            ));
+            arr.unshift({ item: 'All', style: 'active' });
+            setCategories(arr);
+        }
+    ,[props.categories])
 
     return (
         <div class="row justify-content-center">
