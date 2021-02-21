@@ -1,26 +1,36 @@
 import {
-    LOGIN_SUCCEED,
+  LOGIN_SUCCEED,
+  LOGOUT
 } from '../actions/user';
 
 
 export default (
   state = {
-    token:'',
+    token: '',
+    login: false,
   },
   action,
 ) => {
   switch (action.type) {
     case '@@INIT': {
-        return {
-            ...state,
-            token: window.localStorage.getItem('token'),
-        }
+      return {
+        ...state,
+        token: window.localStorage.getItem('token'),
+      }
     }
-    case LOGIN_SUCCEED:{
-        return  {
-            ...state,
-            token: action.data,
-        }
+    case LOGIN_SUCCEED: {
+      return {
+        ...state,
+        token: action.data,
+        login: true,
+      }
+    }
+    case LOGOUT: {
+      return {
+        ...state,
+        token: "",
+        login: false,
+      }
     }
     default:
       return {

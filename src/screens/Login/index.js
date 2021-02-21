@@ -26,11 +26,7 @@ function Login(props) {
     }
 
     const redirect = () => {
-        if(!history.state){
-            history.push("/");
-        }else{
-            history.goBack();
-        }
+        history.push("/");
     }
 
 

@@ -1,6 +1,7 @@
 export const LOGIN = 'LOGIN'
 export const LOGIN_SUCCEED = 'LOGIN_SUCCEED'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
+export const LOGOUT = 'LOGOUT'
 
 
 export default {
@@ -17,4 +18,7 @@ export default {
     type: LOGIN_FAILED,
     err,
   }),
+  onLogout: () => ({
+    type:LOGOUT
+  })
 };

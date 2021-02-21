@@ -5,11 +5,11 @@ function Product(props) {
     return (
         <div class="col-md-6 col-lg-3">
             <div class="product">
-                <Link to="/product" class="img-prod"><img class="img-fluid" src={props.image} alt="Colorlib Template" />
+                <Link to={`/product/${props.id}`} class="img-prod"><img class="img-fluid" src={props.image} alt="Colorlib Template" />
                     <div class="overlay"></div>
                 </Link>
                 <div class="text py-3 pb-4 px-3 text-center">
-                    <h3><Link to="/product">{props.name}</Link></h3>
+                    <h3><Link to={`/product/${props.id}`}>{props.name}</Link></h3>
                     <div class="d-flex">
                         <div class="pricing">
                             <p class="price"><span>${props.price.toFixed(2)}</span></p>

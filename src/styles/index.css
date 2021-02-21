@@ -36,3 +36,15 @@
 .cart-empty>div{
     margin-bottom: 20px;
 }
+
+.ant-pagination-item{
+    border-radius: 50px !important;
+}
+
+.ant-pagination-item-link{
+    border-radius: 50px !important;
+}
+
+.ant-pagination-item-active{
+    background-color: #82ae4680;
+}

@@ -4,18 +4,31 @@ import SaleProduct from './sale_product';
 function Products(props) {
     return (
         <div class="row">
-            <SaleProduct
-            name='Bell Pepper'
-            image='images/product-1.jpg'
-            price={120}
-            salePercent={30}
-            salePrice={80}
-            />
-            <Product
-            name='Bell Pepper'
-            image='images/product-1.jpg'
-            price={120}
-            />
+
+            {
+                props.products.map((item, index) => (
+                    item.is_sale
+                        ?
+                        <SaleProduct
+                            id={item.id}
+                            key={index}
+                            name={item.name}
+                            image={item.image}
+                            price={item.price}
+                            salePercent={1 - (item.sale_price / item.price)}
+                            salePrice={item.sale_price}
+                        />
+                        :
+                        <Product
+                            id={item.id}
+                            key={index}
+                            name={item.name}
+                            image={item.image}
+                            price={item.price}
+                        />
+                ))
+            }
+
         </div>
     );
 }

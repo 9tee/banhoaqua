@@ -1,5 +1,5 @@
 import {
-    all, call, put,fork ,takeLatest,
+    all, call, put, fork, takeLatest,
 } from 'redux-saga/effects';
 
 import {
@@ -10,12 +10,17 @@ import rf from '../../requests/RequestFactory';
 
 function* fetchCategories(action) {
     try {
-        const {data} = yield call(
-            () => rf.getRequest('CategoryRequest').fetchCategories(),{}
+        const { data, error } = yield call(
+            () => rf.getRequest('CategoryRequest').fetchCategories(), {}
         );
-        yield put(actions.onFetchCategorySucceed(data));
+        if (error.code === 200) {
+            yield put(actions.onFetchCategorySucceed(data));
+        }
+        else {
+            yield put(actions.onFetchCategoryFailed(error.message));
+        }
     } catch (err) {
-        console.log("=======",err)
+        console.log("=======", err)
         yield put(actions.onFetchCategoryFailed(err));
     }
 }

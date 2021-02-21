@@ -1,11 +1,13 @@
 import { all } from 'redux-saga/effects';
 import watchCategory from './category_saga';
-import watchLogin from './login_saga'
+import watchProduct from './product_saga';
+import watchUser from './user_saga';
 
 function* rootSaga() {
   yield all([
     watchCategory(),
-    watchLogin(),
+    watchProduct(),
+    watchUser(),
   ]);
 }
 

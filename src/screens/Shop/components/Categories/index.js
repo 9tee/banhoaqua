@@ -5,16 +5,18 @@ function Categories(props) {
         { item: 'All', style: 'active' }
     ])
 
-    const onClick = (index) => {
-        let temp = categories.map((item)=>{return {item:item.item}})
+    const onClick = (index,id) => {
+        let temp = categories.map((item)=>{return {item:item.item, id: item.id}})
         temp[index].style = 'active'
         setCategories(temp)
+        console.log(id)
+        props.onCategoryChange(id)
     }
 
     useEffect(
         ()=>{
             let arr = props.categories.map((item)=>(
-                { item: item.name}
+                { item: item.name, id: item.id}
             ));
             arr.unshift({ item: 'All', style: 'active' });
             setCategories(arr);
@@ -28,7 +30,7 @@ function Categories(props) {
                     {
                         categories.map((item, index) => (
                             <li key={index}><div
-                                onClick={() => {onClick(index)}}
+                                onClick={() => {onClick(index,item.id)}}
                                 class={item.style}
                             >{item.item}</div></li>
                         ))

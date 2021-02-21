@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import actions from '../../redux/actions/user'
 
 function Header(props) {
     const [dropdown, setDropdown] = useState('');
-    const [isLogin, setIsLogin] = useState(false);
 
     let dropdownHandle = () => {
         if (dropdown !== '') {
@@ -14,7 +15,6 @@ function Header(props) {
         }
     }
 
-    let location = useLocation();
 
     return (
         <>
@@ -62,13 +62,13 @@ function Header(props) {
                             <li class="nav-item"><Link to="/blog" class="nav-link">Blog</Link></li>
                             <li class="nav-item"><Link to="/contact" class="nav-link">Contact</Link></li>
                             {
-                                isLogin ?
+                                props.login ?
                                     <>
                                         <li class="nav-item cta cta-colored"><Link to="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</Link></li>
-                                        <li class="nav-item"><Link to="/login" class="nav-link">Logout</Link></li>
+                                        <li class="nav-item" onClick={props.onLogout} ><Link to="/login" class="nav-link">Logout</Link></li>
                                     </>
                                     :
-                                    <li class="nav-item"><Link to={{pathname: "/login", state: location.pathname }}  class="nav-link">Login</Link></li>
+                                    <li class="nav-item"><Link to="/login" class="nav-link">Login</Link></li>
                             }
                         </ul>
                     </div>
@@ -78,4 +78,18 @@ function Header(props) {
     );
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return {
+        login: state.user.login
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLogout: () => {
+            dispatch(actions.onLogout())
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

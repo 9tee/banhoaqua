@@ -1,11 +1,24 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Breadcrumb } from '../../components';
-import { Rate, List, Comment, Avatar, Tooltip, Button, Form, Input } from 'antd';
+import { Rate, List, Comment, Tooltip, Button, Form, Input } from 'antd';
 import { Suggestions } from './components';
 import moment from 'moment';
+import { connect } from 'react-redux';
+
+import actions from '../../redux/actions/product';
+
 
 const { TextArea } = Input;
 
 function Product(props) {
+
+    const { id } = useParams();
+
+    useEffect(
+        () => { props.onFetchProduct(id) }
+        , []
+    )
 
     const data = [
         {
@@ -45,25 +58,23 @@ function Product(props) {
 
     return (
         <>
-            <Breadcrumb navi='Product' name='Product'/>
+            <Breadcrumb navi='Product' name='Product' />
             <section class="ftco-section">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 mb-5  ">
-                            <a href="images/product-1.jpg" class="image-popup"><img src="images/product-1.jpg" class="img-fluid" alt="Colorlib Template" /></a>
+                            <a href={props.product.image} class="image-popup" target="_blank"><img src={props.product.image} class="img-fluid" alt="Colorlib Template" /></a>
                         </div>
                         <div class="col-lg-6 product-details pl-md-5  ">
-                            <h3>Bell Pepper</h3>
+                            <h3>{props.product.name}</h3>
                             <div class="rating d-flex">
                                 <Rate
                                     style={{ color: '#82ae46' }}
                                 />
                             </div>
-                            <p class="price"><span>$120.00</span></p>
+                            <p class="price"><span>${props.product.price}</span></p>
                             <p>
-                                A small river named Duden flows by their place and supplies it with the necessary regelialia.
-                                It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
-                                Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until.
+                               {props.product.description}
 						    </p>
                             <div class="row mt-4">
                                 <div class="w-100"></div>
@@ -98,10 +109,10 @@ function Product(props) {
                     </div>
                     <Form>
                         <Form.Item>
-                            <TextArea rows={4} placeholder='Add your comment here'/>
+                            <TextArea rows={4} placeholder='Add your comment here' />
                         </Form.Item>
                         <Form.Item>
-                            <Button htmlType="submit" type="primary" style={{float:'right'}}>
+                            <Button htmlType="submit" type="primary" style={{ float: 'right' }}>
                                 Add Comment
                              </Button>
                         </Form.Item>
@@ -142,4 +153,19 @@ function Product(props) {
     );
 }
 
-export default Product;
+
+const mapStateToProps = (state) => {
+    return {
+        product: state.product.current
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFetchProduct: (id) => {
+            dispatch(actions.onFetchProduct(id))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);
