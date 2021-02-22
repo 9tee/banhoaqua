@@ -3,6 +3,7 @@ import {
 } from 'redux-saga/effects';
 
 import axios from 'axios';
+import {BASEURL} from '../../bootstrap';
 
 import {
     LOGIN,
@@ -32,17 +33,17 @@ function* login(action) {
 }
 
 function* loginSucceed(action) {
-    yield window.localStorage.setItem('token', action.data)
-    window.axios = axios.create({
-        baseURL: 'http://localhost:8080/v1',
-        headers: { token: action.data }
+    window.localStorage.setItem('token', action.data.token)
+    yield window.axios = axios.create({
+        baseURL: BASEURL,
+        headers: { token: action.data.token }
     });
 }
 
 function* logout(action) {
-    yield window.localStorage.removeItem('token')
-    window.axios = axios.create({
-        baseURL: 'http://localhost:8080/v1',
+    window.localStorage.removeItem('token')
+    yield window.axios = axios.create({
+        baseURL: BASEURL,
     });
 }
 

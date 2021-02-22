@@ -1,11 +1,13 @@
 import CategoryRequest from './CategoryRequest';
 import ProductRequest from './ProductRequest';
 import LoginRequest from './LoginRequest';
+import CartRequest from './CartRequest'
 
 const requestMap = {
     CategoryRequest,
     ProductRequest,
     LoginRequest,
+    CartRequest,
 };
 
 const instances = {};

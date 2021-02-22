@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import { Table } from 'antd';
+import {connect} from 'react-redux';
+
 import { Breadcrumb } from '../../components';
+import actions from '../../redux/actions/cart';
 
 function Cart(props) {
-    const [cart, setCart] = useState([]);
-
     const columns = [
         {
             render: () => (<span class="ion-ios-close" />),
@@ -36,19 +37,25 @@ function Cart(props) {
             key: 'total',
         }
     ];
+    
+    useEffect(
+        props.onFetchCart
+        ,[])
+
+    
 
     return (
         <>
             <Breadcrumb navi='Cart' name='My cart'/>
             {
-                cart.length !== 0
+                props.cart.length !== 0
                     ?
                     <section class="ftco-section ftco-cart">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12  ">
                                     <div>
-                                        <Table columns={columns} dataSource={cart} pagination={false}/>
+                                        <Table columns={columns} dataSource={props.cart} pagination={false}/>
                                     </div>
                                 </div>
                             </div>
@@ -91,4 +98,18 @@ function Cart(props) {
     );
 }
 
-export default Cart;
+const mapStateToProps = (state) => {
+    return {
+        cart: state.cart.cart,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onFetchCart: () => {
+            dispatch(actions.onFetchCart())
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Cart);

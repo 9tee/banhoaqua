@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Breadcrumb } from '../../components';
-import { Rate, List, Comment, Tooltip, Button, Form, Input } from 'antd';
+import { Rate, List, Comment, Tooltip, Button, Form, Input, InputNumber } from 'antd';
 import { Suggestions } from './components';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import actions from '../../redux/actions/product';
 const { TextArea } = Input;
 
 function Product(props) {
+    const [value, setValue] = useState(1)
 
     const { id } = useParams();
 
@@ -55,6 +56,9 @@ function Product(props) {
         },
     ];
 
+    const onValueChange = (value) => {
+        setValue(value);
+    }
 
     return (
         <>
@@ -69,34 +73,31 @@ function Product(props) {
                             <h3>{props.product.name}</h3>
                             <div class="rating d-flex">
                                 <Rate
+                                    defaultValue={props.product.rate_avg}
                                     style={{ color: '#82ae46' }}
                                 />
                             </div>
                             <p class="price"><span>${props.product.price}</span></p>
                             <p>
-                               {props.product.description}
-						    </p>
+                                {props.product.description}
+                            </p>
                             <div class="row mt-4">
                                 <div class="w-100"></div>
                                 <div class="input-group col-md-6 d-flex mb-3">
-                                    <span class="input-group-btn mr-2">
-                                        <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
-                                            <i class="ion-ios-remove"></i>
-                                        </button>
-                                    </span>
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100" />
-                                    <span class="input-group-btn ml-2">
-                                        <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-                                            <i class="ion-ios-add"></i>
-                                        </button>
-                                    </span>
+                                    <InputNumber
+                                        min={1}
+                                        max={props.product.remaining || 1}
+                                        defaultValue={1}
+                                        keyboard={false}
+                                        onChange={onValueChange}                        
+                                        precision={0}
+                                    />
                                 </div>
-                                <div class="w-100"></div>
                                 <div class="col-md-12">
-                                    <p style={{ color: '#000' }}>600 kg available</p>
+                                    <p style={{ color: '#000' }}>{props.product.remaining} available</p>
                                 </div>
                             </div>
-                            <p><a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+                            <p><div class="btn btn-black py-3 px-5">Add to Cart</div></p>
                         </div>
                     </div>
                 </div>

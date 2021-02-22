@@ -61,12 +61,10 @@ function Header(props) {
                             <li class="nav-item"><Link to="/about" class="nav-link">About</Link></li>
                             <li class="nav-item"><Link to="/blog" class="nav-link">Blog</Link></li>
                             <li class="nav-item"><Link to="/contact" class="nav-link">Contact</Link></li>
+                            <li class="nav-item cta cta-colored"><Link to="/cart" class="nav-link"><span class="icon-shopping_cart"></span></Link></li>
                             {
                                 props.login ?
-                                    <>
-                                        <li class="nav-item cta cta-colored"><Link to="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</Link></li>
-                                        <li class="nav-item" onClick={props.onLogout} ><Link to="/login" class="nav-link">Logout</Link></li>
-                                    </>
+                                    <li class="nav-item" onClick={props.onLogout} ><Link to="/login" class="nav-link">Logout</Link></li>
                                     :
                                     <li class="nav-item"><Link to="/login" class="nav-link">Login</Link></li>
                             }
@@ -92,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
