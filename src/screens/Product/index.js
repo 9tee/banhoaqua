@@ -1,13 +1,13 @@
-import { useEffect,useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { Breadcrumb } from '../../components';
-import { Rate, List, Comment, Tooltip, Button, Form, Input, InputNumber } from 'antd';
+import { Rate, List, Comment, Tooltip, Button, Form, Input, InputNumber, notification } from 'antd';
 import { Suggestions } from './components';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import actions from '../../redux/actions/product';
-
+import product_actions from '../../redux/actions/product';
+import cart_actions from '../../redux/actions/cart';
 
 const { TextArea } = Input;
 
@@ -15,50 +15,50 @@ function Product(props) {
     const [value, setValue] = useState(1)
 
     const { id } = useParams();
+    const history = useHistory();
 
     useEffect(
-        () => { props.onFetchProduct(id) }
+        () => {
+            props.onFetchProduct(id);
+            props.onFetchComment({ pid: id });
+        }
         , []
     )
-
-    const data = [
-        {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content: (
-                <p>
-                    We supply a series of design principles, practical patterns and high quality design
-                    resources (Sketch and Axure), to help people create their product prototypes beautifully and
-                    efficiently.
-                </p>
-            ),
-            datetime: (
-                <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{moment().subtract(1, 'days').fromNow()}</span>
-                </Tooltip>
-            ),
-        },
-        {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content: (
-                <p>
-                    We supply a series of design principles, practical patterns and high quality design
-                    resources (Sketch and Axure), to help people create their product prototypes beautifully and
-                    efficiently.
-                </p>
-            ),
-            datetime: (
-                <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{moment().subtract(2, 'days').fromNow()}</span>
-                </Tooltip>
-            ),
-        },
-    ];
 
     const onValueChange = (value) => {
         setValue(value);
     }
+
+    const addCart = () => {
+        props.onAddCart({ product_id: parseInt(id, 10), quantity: value }, succeed)
+    }
+
+    const onFinish = (values) => {
+        values.product_id = parseInt(id,10);
+        props.onCreateComment(values)
+    }
+
+    const succeed = () => {
+        const key = 'cart';
+        const btn = (
+            <Button type="primary"
+                onClick={() => {
+                    notification.close(key)
+                    history.push('/cart')
+                }
+                }
+            >
+                Go to cart
+            </Button>
+        );
+        notification.open({
+            message: 'Succeed',
+            description:
+                'Added succecfully to the cart',
+            btn,
+            key
+        });
+    };
 
     return (
         <>
@@ -89,7 +89,7 @@ function Product(props) {
                                         max={props.product.remaining || 1}
                                         defaultValue={1}
                                         keyboard={false}
-                                        onChange={onValueChange}                        
+                                        onChange={onValueChange}
                                         precision={0}
                                     />
                                 </div>
@@ -97,7 +97,7 @@ function Product(props) {
                                     <p style={{ color: '#000' }}>{props.product.remaining} available</p>
                                 </div>
                             </div>
-                            <p><div class="btn btn-black py-3 px-5">Add to Cart</div></p>
+                            <p><div class="btn btn-black py-3 px-5" onClick={addCart}>Add to Cart</div></p>
                         </div>
                     </div>
                 </div>
@@ -108,8 +108,12 @@ function Product(props) {
                     <div class="col-md-12 heading-section text-center  ">
                         <span class="subheading">Comments</span>
                     </div>
-                    <Form>
-                        <Form.Item>
+                    <Form
+                        onFinish={onFinish}
+                    >
+                        <Form.Item
+                            name='comment'
+                        >
                             <TextArea rows={4} placeholder='Add your comment here' />
                         </Form.Item>
                         <Form.Item>
@@ -122,15 +126,14 @@ function Product(props) {
                         className="comment-list"
                         header={`Comments`}
                         itemLayout="horizontal"
-                        dataSource={data}
+                        dataSource={[...props.comment]}
                         renderItem={item => (
                             <li>
                                 <Comment
-                                    actions={item.actions}
-                                    author={item.author}
-                                    avatar={item.avatar}
-                                    content={item.content}
-                                    datetime={item.datetime}
+                                    author={item.name}
+                                    avatar='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                                    content={item.comment}
+                                    datetime={moment.unix(item.last_up_date).format("DD/MM/YYYY")}
                                 />
                             </li>
                         )}
@@ -157,14 +160,24 @@ function Product(props) {
 
 const mapStateToProps = (state) => {
     return {
-        product: state.product.current
+        product: state.product.current,
+        comment: state.product.comment,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetchProduct: (id) => {
-            dispatch(actions.onFetchProduct(id))
+            dispatch(product_actions.onFetchProduct(id))
+        },
+        onAddCart: (data, callback) => {
+            dispatch(cart_actions.onAddCart(data, callback))
+        },
+        onFetchComment: (id) => {
+            dispatch(product_actions.onFetchComment(id))
+        },
+        onCreateComment: (data) => {
+            dispatch(product_actions.onCreateComment(data))
         }
     }
 }

@@ -7,6 +7,10 @@ class LoginRequest extends BaseRequest {
         const url = `${prefix}/login`;
         return this.post(url,data);
     }
+    checkToken(data){
+        const url = `${prefix}/`
+        return this.get(url,data);
+    }
 }
 
 export default LoginRequest

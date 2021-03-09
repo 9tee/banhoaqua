@@ -21,6 +21,8 @@ const store = createStore(
 );
 sagaMiddleware.run(rootSaga);
 
+store.dispatch({type: 'INIT'});
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

@@ -21,7 +21,7 @@ export default (
     case LOGIN_SUCCEED: {
       return {
         ...state,
-        token: action.data,
+        token: action.data.token,
         login: true,
       }
     }

@@ -3,8 +3,10 @@ import {
 } from 'redux-saga/effects';
 
 import {
+    FETCH_COMMENT,
     FETCH_PRODUCT,
     FETCH_PRODUCTS,
+    CREATE_COMMENT,
 } from '../actions/product';
 import actions from '../actions/product';
 import rf from '../../requests/RequestFactory';
@@ -25,20 +27,52 @@ function* fetchProducts(action) {
 
 function* fetchProduct(action) {
     try {
-        const { data, total_count } = yield call(
+        const { data,error } = yield call(
             (data) => rf.getRequest('ProductRequest').fetchProduct(data), action.data
         );
-        console.log(data, total_count)
+        if (error.code === 200) {
         yield put(actions.onFetchProductSucceed(data));
+        }
     } catch (err) {
         console.log("=======", err)
         yield put(actions.onFetchProductFailed(err));
     }
 }
 
+function* fetchComment(action) {
+    try {
+        const { data, error } = yield call(
+            (data) => rf.getRequest('CommentRequest').fetchComment(data), action.data
+        );
+        if (error.code === 200) {
+        yield put(actions.onFetchCommentSucceed(data));
+        }
+    } catch (err) {
+        console.log("=======", err)
+        yield put(actions.onFetchCommentFailed(err));
+    }
+}
+
+
+function* createComment(action) {
+    try {
+        const { error } = yield call(
+            (data) => rf.getRequest('CommentRequest').postCommnet(data), action.data
+        );
+        if (error.code === 200) {
+        yield put(actions.onFetchComment({pid:action.data.product_id}));
+        }
+    } catch (err) {
+        console.log("=======", err)
+        yield put(actions.onCreateCommentFailed(err));
+    }
+}
+
 function* watchProduct() {
     yield takeLatest(FETCH_PRODUCTS, fetchProducts);
     yield takeLatest(FETCH_PRODUCT, fetchProduct);
+    yield takeLatest(FETCH_COMMENT, fetchComment);
+    yield takeLatest(CREATE_COMMENT, createComment)
 }
 
 export default function* rootSaga() {

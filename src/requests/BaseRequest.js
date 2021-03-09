@@ -25,9 +25,9 @@ class BaseRequest {
         }
     }
 
-    async del(url, params = {}) {
+    async delete(url, params = {}) {
         try {
-            const response = await window.axios.delete(`${url}`, params);
+            const response = await window.axios.delete(`${url}`, {params});
             return this._responseHandler(response);
         } catch (error) {
             this._errorHandler(error);

@@ -1,5 +1,5 @@
 import {
-    all, call, put, fork, takeLatest,
+    all, call, put, fork, takeLatest, takeEvery,
 } from 'redux-saga/effects';
 
 import axios from 'axios';
@@ -32,6 +32,20 @@ function* login(action) {
     }
 }
 
+function* checkToken(action) {
+    try {
+        const { data, error } = yield call(
+            (data) => rf.getRequest('LoginRequest').checkToken(data), {token:window.localStorage.getItem('token')});
+        console.log(data)
+        if (error.code === 200 && data === 1) {
+            yield put(actions.onLoginSucceed({token:window.localStorage.getItem('token')}));
+        } 
+    } catch (err) {
+        console.log("=======", err)
+        yield put(actions.onLoginFailed(err));
+    }
+}
+
 function* loginSucceed(action) {
     window.localStorage.setItem('token', action.data.token)
     yield window.axios = axios.create({
@@ -47,7 +61,10 @@ function* logout(action) {
     });
 }
 
+
+
 function* watchUser() {
+    yield takeLatest("INIT", checkToken)
     yield takeLatest(LOGIN, login);
     yield takeLatest(LOGIN_SUCCEED, loginSucceed)
     yield takeLatest(LOGOUT, logout);

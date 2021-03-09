@@ -1,15 +1,27 @@
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import { Table } from 'antd';
+import {CloseOutlined} from '@ant-design/icons';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
 
 import { Breadcrumb } from '../../components';
 import actions from '../../redux/actions/cart';
 
+const Hover = styled.div`
+    &:hover {
+        cursor:pointer;
+    }
+`
+
 function Cart(props) {
+    const deteleCart = (index) => {
+        props.onDeleteCart({pid: index});
+    }
+
     const columns = [
         {
-            render: () => (<span class="ion-ios-close" />),
+            render: (text,record) => (<Hover onClick={() => {deteleCart(record.id)}}><CloseOutlined /></Hover>),
         },
         {
             dataIndex: 'image',
@@ -25,6 +37,7 @@ function Cart(props) {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
+            render: (text) => (<div>${`${text}`}</div>)
         },
         {
             title: 'Quantity',
@@ -33,11 +46,10 @@ function Cart(props) {
         },
         {
             title: 'Total',
-            dataIndex: 'total',
-            key: 'total',
+            render: (text,record) => (<div>${`${record.price * record.quantity}`}</div>)
         }
     ];
-    
+
     useEffect(
         props.onFetchCart
         ,[])
@@ -55,7 +67,7 @@ function Cart(props) {
                             <div class="row">
                                 <div class="col-md-12  ">
                                     <div>
-                                        <Table columns={columns} dataSource={props.cart} pagination={false}/>
+                                        <Table columns={columns} dataSource={[...props.cart]} pagination={false}/>
                                     </div>
                                 </div>
                             </div>
@@ -65,23 +77,18 @@ function Cart(props) {
                                         <h3>Cart Totals</h3>
                                         <p class="d-flex">
                                             <span>Subtotal</span>
-                                            <span>$20.60</span>
+                                            <span>${props.cart.reduce((sum,value) => (sum +value.price*value.quantity),0).toFixed(2)}</span>
                                         </p>
                                         <p class="d-flex">
                                             <span>Delivery</span>
                                             <span>$0.00</span>
                                         </p>
-                                        <p class="d-flex">
-                                            <span>Discount</span>
-                                            <span>$3.00</span>
-                                        </p>
-                                        <hr />
                                         <p class="d-flex total-price">
                                             <span>Total</span>
-                                            <span>$17.60</span>
+                                            <span>${props.cart.reduce((sum,value) => (sum +value.price*value.quantity),0).toFixed(2)}</span>
                                         </p>
                                     </div>
-                                    <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+                                    <p><Link to="/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</Link></p>
                                 </div>
                             </div>
                         </div>
@@ -108,6 +115,9 @@ const mapDispatchToProps = (dispatch) => {
     return{
         onFetchCart: () => {
             dispatch(actions.onFetchCart())
+        },
+        onDeleteCart: (data) => {
+            dispatch(actions.onDeleteCart(data))
         }
     }
 }
