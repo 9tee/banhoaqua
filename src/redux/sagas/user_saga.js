@@ -8,7 +8,8 @@ import {BASEURL} from '../../bootstrap';
 import {
     LOGIN,
     LOGIN_SUCCEED,
-    LOGOUT
+    LOGOUT,
+    SIGN_UP
 } from '../actions/user';
 import actions from '../actions/user';
 import rf from '../../requests/RequestFactory';
@@ -61,13 +62,25 @@ function* logout(action) {
     });
 }
 
+function* signup(action) {
+    try {
+        const { data, error } = yield call(
+            (data) => rf.getRequest('LoginRequest').signUp(data), action.data);
 
+        if (error.code === 200) {
+            action.callback();
+        } 
+    } catch (err) {
+        console.log("=======", err)
+    }
+}
 
 function* watchUser() {
     yield takeLatest("INIT", checkToken)
     yield takeLatest(LOGIN, login);
     yield takeLatest(LOGIN_SUCCEED, loginSucceed)
     yield takeLatest(LOGOUT, logout);
+    yield takeLatest(SIGN_UP, signup);
 }
 
 export default function* rootSaga() {

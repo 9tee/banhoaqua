@@ -34,7 +34,7 @@ function Login(props) {
         <div className="bg" style={{ backgroundImage: `url(${Background})` }}>
             <div className="container">
                 <div className="login-container" >
-                    <h1>Đăng Nhập</h1>
+                    <h1>Login</h1>
                     <Form
                         {...layout}
                         name="basic"

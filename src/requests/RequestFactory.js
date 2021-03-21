@@ -4,6 +4,8 @@ import LoginRequest from './LoginRequest';
 import CartRequest from './CartRequest';
 import OrderRequest from './OrderRequest';
 import CommentRequest from './CommentRequest';
+import RateRequest from './RateRequest';
+import StatisticRequest from './StatisticRequest';
 
 const requestMap = {
     CategoryRequest,
@@ -12,6 +14,8 @@ const requestMap = {
     CartRequest,
     OrderRequest,
     CommentRequest,
+    RateRequest,
+    StatisticRequest,
 };
 
 const instances = {};

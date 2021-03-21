@@ -7,6 +7,7 @@ import {
     FETCH_PRODUCT,
     FETCH_PRODUCTS,
     CREATE_COMMENT,
+    RATE,
 } from '../actions/product';
 import actions from '../actions/product';
 import rf from '../../requests/RequestFactory';
@@ -68,11 +69,25 @@ function* createComment(action) {
     }
 }
 
+function* rate(action) {
+    try {
+        const { error } = yield call(
+            (data) => rf.getRequest('RateRequest').rateProduct(data), action.data
+        );
+        if (error.code === 200) {
+            action.callback();
+        }
+    } catch (err) {
+        console.log("=======", err)
+    }
+}
+
 function* watchProduct() {
     yield takeLatest(FETCH_PRODUCTS, fetchProducts);
     yield takeLatest(FETCH_PRODUCT, fetchProduct);
     yield takeLatest(FETCH_COMMENT, fetchComment);
     yield takeLatest(CREATE_COMMENT, createComment)
+    yield takeLatest(RATE,rate);
 }
 
 export default function* rootSaga() {

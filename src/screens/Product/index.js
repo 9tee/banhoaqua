@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Breadcrumb } from '../../components';
-import { Rate, List, Comment, Tooltip, Button, Form, Input, InputNumber, notification } from 'antd';
-import { Suggestions } from './components';
+import { Rate, List, Comment, Button, Form, Input, InputNumber, notification } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -31,6 +30,14 @@ function Product(props) {
 
     const addCart = () => {
         props.onAddCart({ product_id: parseInt(id, 10), quantity: value }, succeed)
+    }
+
+    const rate = (value) => {
+        props.onRate({ product_id: parseInt(id, 10), rate: value}, () => {
+            notification['success']({
+                message: 'Rate succeeded',
+            })
+        })
     }
 
     const onFinish = (values) => {
@@ -74,6 +81,7 @@ function Product(props) {
                             <div class="rating d-flex">
                                 <Rate
                                     defaultValue={props.product.rate_avg}
+                                    onChange={rate}
                                     style={{ color: '#82ae46' }}
                                 />
                             </div>
@@ -144,14 +152,9 @@ function Product(props) {
             <section class="ftco-section">
                 <div class="container">
                     <div class="row justify-content-center mb-3 pb-3">
-                        <div class="col-md-12 heading-section text-center  ">
-                            <span class="subheading">Products</span>
-                            <h2 class="mb-4">Related Products</h2>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-                        </div>
+                        
                     </div>
                 </div>
-                <Suggestions />
             </section>
         </>
     );
@@ -178,7 +181,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         onCreateComment: (data) => {
             dispatch(product_actions.onCreateComment(data))
-        }
+        },
+        onRate: (data,callback) => {
+            dispatch(product_actions.onRate(data,callback))
+        },
     }
 }
 

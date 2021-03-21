@@ -11,6 +11,10 @@ class LoginRequest extends BaseRequest {
         const url = `${prefix}/`
         return this.get(url,data);
     }
+    signUp(data){
+        const url = `${prefix}/register`;
+        return this.post(url,data);
+    }
 }
 
 export default LoginRequest

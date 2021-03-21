@@ -13,6 +13,8 @@ export const FETCH_COMMENT_FAILED = 'FETCH_COMMENT_FAILED';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const CREATE_COMMENT_FAILED = 'CREATE_COMMENT_FAILED';
 
+export const RATE = 'RATE';
+
 
 export default {
   onFetchProducts: (data) => ({
@@ -59,4 +61,9 @@ export default {
     type: CREATE_COMMENT,
     err
   }),
+  onRate: (data,callback) => ({
+    type: RATE,
+    data,
+    callback,
+  })
 };

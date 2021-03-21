@@ -52,15 +52,9 @@ function Header(props) {
                                 <Link class="nav-link dropdown-toggle" to="#">Shop</Link>
                                 <div class={`dropdown-menu ${dropdown}`} >
                                     <Link class="dropdown-item" to="/shop">Shop</Link>
-                                    <Link class="dropdown-item" to="/wishlist">Wishlist</Link>
-                                    <Link class="dropdown-item" to="/product">Single Product</Link>
                                     <Link class="dropdown-item" to="/cart">Cart</Link>
-                                    <Link class="dropdown-item" to="/checkout">Checkout</Link>
                                 </div>
                             </li>
-                            <li class="nav-item"><Link to="/about" class="nav-link">About</Link></li>
-                            <li class="nav-item"><Link to="/blog" class="nav-link">Blog</Link></li>
-                            <li class="nav-item"><Link to="/contact" class="nav-link">Contact</Link></li>
                             <li class="nav-item cta cta-colored"><Link to="/cart" class="nav-link"><span class="icon-shopping_cart"></span></Link></li>
                             {
                                 props.login ?

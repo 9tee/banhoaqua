@@ -1,4 +1,4 @@
-import { CustomCarousel, CircleIcon, Categories, Products } from './components'
+import { CustomCarousel, CircleIcon, Categories} from './components'
 
 function Home(props) {
     return (
@@ -6,7 +6,6 @@ function Home(props) {
             <CustomCarousel />
             <CircleIcon />
             <Categories/>
-            <Products/>
         </>
     );
 }

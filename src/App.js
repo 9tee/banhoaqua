@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {Header, Footer} from './components';
-import {Home, Shop, Product, Cart, Checkout, Login} from './screens';
+import {Home, Shop, Product, Cart, Checkout, Login, Signup} from './screens';
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
       <Route path="/cart" component={Cart}/>
       <Route path="/checkout" component={Checkout}/>
       <Route path="/login" component={Login}/>
+      <Route path="/signup" component={Signup}/>
       <Footer/>
     </Router>
   );
